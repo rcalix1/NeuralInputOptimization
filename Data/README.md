@@ -95,3 +95,53 @@ This dataset is designed for inverse modeling experiments such as:
 
 Use your forward model to learn `x → y`, and NIO to find `x` that satisfies output constraints.
 
+
+
+# 🍫 Synthetic Chocolate Production Dataset
+
+This synthetic dataset simulates chocolate production based on formulation, process parameters, and cost. It is designed for machine learning tasks involving constraint-based optimization, inverse modeling, and multi-objective tuning.
+
+---
+
+## 📂 Columns
+
+### Inputs
+
+* `i_cocoa_pct` — Cocoa content in recipe (%)
+* `i_sugar_pct` — Sugar content in recipe (%)
+* `i_milk_pct` — Milk content in recipe (%)
+* `i_temp_celsius` — Tempering temperature (°C)
+* `i_mixing_speed_rpm` — Mixing speed during processing (rpm)
+* `i_cost_per_kg` — Ingredient cost per kg (\$)
+* `i_emulsifier_pct` — Emulsifier concentration in mixture (%)
+
+### Outputs
+
+* `o_sweetness_score` — Perceived sweetness on a 0–10 scale
+* `o_smoothness_score` — Mouthfeel smoothness (0–1 scale)
+* `o_production_cost_per_batch` — Estimated cost to produce a batch (\$)
+* `o_customer_pref_score` — Overall consumer preference (0–100)
+
+---
+
+## 🧪 Simulated Flavor Physics
+
+* **Sweetness** increases with sugar and milk, and decreases with cocoa.
+* **Smoothness** improves with better mixing, more emulsifier, and optimal temperature.
+* **Production cost** is driven by total ingredient mass and cost.
+* **Customer preference** balances taste, texture, and price.
+
+---
+
+## 🛠️ Use Case
+
+This dataset is intended for:
+
+* Testing inverse modeling via constraint-based input optimization
+* Learning surrogate models (forward models) from synthetic inputs
+* Benchmarking multi-objective optimization (taste vs. cost)
+* Practicing preference learning or score-based optimization
+
+Each column is prefixed with `i_` for inputs and `o_` for outputs for clarity in modeling pipelines.
+
+
