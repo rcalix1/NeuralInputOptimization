@@ -144,4 +144,72 @@ This dataset is intended for:
 
 Each column is prefixed with `i_` for inputs and `o_` for outputs for clarity in modeling pipelines.
 
+# 🐾 Veterinary Antibiotic Treatment Dataset (Synthetic)
+
+This dataset simulates antibiotic treatment scenarios in cats and dogs, designed for training forward models and applying **Neural Input Optimization (NIO)** to personalize veterinary care.
+
+---
+
+## 📊 Dataset Overview
+
+* **Samples**: 1000
+* **Inputs** (`i_` prefix): Patient data + treatment plan
+* **Outputs** (`o_` prefix): Outcome indicators
+
+### 👉 Inputs (Features)
+
+* `i_species` — Species of animal (`Cat`, `Dog`)
+* `i_age_years` — Age in years
+* `i_weight_kg` — Body weight
+* `i_body_temp_c` — Body temperature in Celsius
+* `i_infection_site` — Infection location (`Skin`, `Respiratory`, `Urinary`, `Wound`, etc.)
+* `i_blood_marker_crp` — C-reactive protein (inflammation marker)
+* `i_antibiotic_given` — Antibiotic prescribed (`Amoxicillin`, `Clindamycin`, `Doxycycline`)
+* `i_dose_mg_per_kg` — Dosage in mg per kg body weight
+* `i_duration_days` — Treatment duration
+* `i_concurrent_conditions` — Comorbidities (`None`, `Renal`, `Diabetes`, etc.)
+
+### 📈 Outputs (Targets)
+
+* `o_infection_clearance` — Was the infection cleared? (`1` = yes, `0` = no)
+* `o_side_effects` — Did side effects occur? (`1` = yes, `0` = no)
+* `o_recovery_days` — Days to full recovery
+* `o_followup_needed` — Was follow-up required? (`1` = yes, `0` = no)
+
+---
+
+## 🚀 Use Case: NIO for Personalized Vet Treatment
+
+### ✅ Goal:
+
+Given a **target outcome**, generate an **optimal treatment plan** using constraint-based optimization.
+
+#### 🔢 Example Output Constraints:
+
+| Variable                | Constraint       |
+| ----------------------- | ---------------- |
+| `o_infection_clearance` | Must be `1`      |
+| `o_side_effects`        | Must be `0`      |
+| `o_recovery_days`       | Less than 7 days |
+| `o_followup_needed`     | Prefer `0`       |
+
+### 🧪 NIO Application:
+
+Use a forward model to approximate treatment dynamics. Then, use NIO to:
+
+* Suggest best `i_dose_mg_per_kg` and `i_duration_days`
+* Choose optimal `i_antibiotic_given` (esp. for cats vs dogs)
+* Tailor based on infection site and comorbidities
+
+---
+
+## 🪥 Notes
+
+* Designed to reflect real-world treatment patterns
+* Incorporates known sensitivities (e.g., cats & Doxycycline)
+* All variables are interpretable for veterinary professionals
+
+This dataset can be used for inverse modeling, policy simulation, and decision-support systems in veterinary practice.
+
+
 
