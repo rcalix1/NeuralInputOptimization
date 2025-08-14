@@ -47,6 +47,7 @@ This dataset is structured for experiments like:
 
 Use your forward model to approximate output mappings, then apply constrained NIO for input generation.
 
+---
 
 # Synthetic Portfolio Construction Dataset (NIO Ready)
 
@@ -95,7 +96,7 @@ This dataset is designed for inverse modeling experiments such as:
 
 Use your forward model to learn `x → y`, and NIO to find `x` that satisfies output constraints.
 
-
+---
 
 # 🍫 Synthetic Chocolate Production Dataset
 
@@ -143,6 +144,8 @@ This dataset is intended for:
 * Practicing preference learning or score-based optimization
 
 Each column is prefixed with `i_` for inputs and `o_` for outputs for clarity in modeling pipelines.
+
+---
 
 # 🐾 Veterinary Antibiotic Treatment Dataset (Synthetic)
 
