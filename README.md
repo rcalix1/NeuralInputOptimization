@@ -8,6 +8,7 @@ NIO has broad applicability across domains such as engineering, finance, healthc
 ## Reasoning
 
 * https://proceedings.neurips.cc/paper_files/paper/2016/file/fb87582825f9d28a8d42c5e5e5e8b23d-Paper.pdf
+* “Reasoning Through Optimization: Embedding a Learnable Calculus Engine in Large Language Models”
 
 
 ---
