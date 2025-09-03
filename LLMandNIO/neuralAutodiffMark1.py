@@ -100,12 +100,4 @@ for outer_step in range(200):
 
 ---
 
-This is your **first Neural Autograd prototype**:
-- It builds a meta-model (`NeuralAutograd`) that learns how to perform gradient descent.
-- It uses it to update a classifier (`MLP`) on Iris without calling `.backward()` on the classifier.
-- It trains `NeuralAutograd` using the outer loss computed *after* applying its gradient guess.
 
-Ready to:
-- Add tests (e.g. plot loss vs baseline)?
-- Extend to regression?
-- Refactor for the paper?
