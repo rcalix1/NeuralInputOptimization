@@ -100,4 +100,111 @@ for outer_step in range(200):
 
 ---
 
+##################
+
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from sklearn.datasets import load_iris
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+
+# --- Load and prepare Iris data ---
+data = load_iris()
+X = data.data.astype('float32')
+y = data.target.astype('int64')
+
+y_onehot = F.one_hot(torch.tensor(y), num_classes=3).float()
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Convert to torch tensors
+X_tensor = torch.tensor(X_scaled)
+y_tensor = y_onehot
+
+# --- Split into train/test ---
+X_train, X_test, y_train, y_test = train_test_split(X_tensor, y_tensor, test_size=0.2, random_state=42)
+
+# --- Forward model: 2-layer MLP ---
+def forward_model(x, W1, b1, W2, b2):
+    h = F.relu(x @ W1 + b1)
+    out = h @ W2 + b2
+    return out
+
+# --- Neural Autograd model ---
+class NeuralAutograd(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(4*10 + 3*10 + 4*16 + 16 + 16*3 + 3, 512),
+            nn.ReLU(),
+            nn.Linear(512, 1024),
+            nn.ReLU(),
+        )
+        self.heads = nn.ModuleDict({
+            'dW1': nn.Linear(1024, 4*16),
+            'db1': nn.Linear(1024, 16),
+            'dW2': nn.Linear(1024, 16*3),
+            'db2': nn.Linear(1024, 3),
+        })
+
+    def forward(self, x, y, W1, b1, W2, b2):
+        z = torch.cat([
+            x.view(-1), y.view(-1),
+            W1.view(-1), b1.view(-1),
+            W2.view(-1), b2.view(-1)
+        ], dim=0)
+        h = self.encoder(z)
+        return {
+            'dW1': self.heads['dW1'](h).view(4, 16),
+            'db1': self.heads['db1'](h).view(16),
+            'dW2': self.heads['dW2'](h).view(16, 3),
+            'db2': self.heads['db2'](h).view(3),
+        }
+
+# --- Sample random weights ---
+def sample_weights():
+    W1 = torch.randn(4, 16, requires_grad=True)
+    b1 = torch.randn(16, requires_grad=True)
+    W2 = torch.randn(16, 3, requires_grad=True)
+    b2 = torch.randn(3, requires_grad=True)
+    return W1, b1, W2, b2
+
+# --- Training loop ---
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+ND = NeuralAutograd().to(device)
+optimizer = torch.optim.Adam(ND.parameters(), lr=1e-4)
+
+for step in range(5000):
+    # Sample weights
+    W1, b1, W2, b2 = sample_weights()
+
+    # Select a batch from training data
+    idx = torch.randint(0, len(X_train), (10,))
+    x_batch = X_train[idx].to(device)
+    y_batch = y_train[idx].to(device)
+
+    # Forward pass
+    y_hat = forward_model(x_batch, W1, b1, W2, b2)
+    loss = F.mse_loss(y_hat, y_batch)
+
+    # Compute true gradients
+    grads = torch.autograd.grad(loss, [W1, b1, W2, b2])
+
+    # Predict gradients
+    pred = ND(x_batch, y_batch, W1.detach(), b1.detach(), W2.detach(), b2.detach())
+
+    # MSE loss between predicted and real gradients
+    loss_nd = sum(F.mse_loss(pred[k], g.detach()) for k, g in zip(pred, grads))
+
+    # Backprop ND
+    optimizer.zero_grad()
+    loss_nd.backward()
+    optimizer.step()
+
+    if step % 500 == 0:
+        print(f"Step {step}: ND Loss = {loss_nd.item():.6f}")
+
+
 
