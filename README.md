@@ -8,6 +8,7 @@ NIO has broad applicability across domains such as engineering, finance, healthc
 ## NIO Applications
 
 * Cyber security ()
+* Industrial Blast Furnace Applications (https://github.com/rcalix1/ConstraintsMLprediction/tree/main)
 
 ___
 
