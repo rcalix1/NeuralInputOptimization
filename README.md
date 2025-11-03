@@ -34,7 +34,7 @@ Secure token generation link:
 ## 🧠 Scenario
 We define a simple pretrained model `f(x)` and then use gradient descent to search for an input `x_opt` such that:
 
-- `f(x_opt)` ≈ desired `y_target` (e.g., a red-flag threshold)
+- `f(x_opt)` ≈ desired `y_target` 
 - `x_opt` stays within allowed input bounds
 
 This simulates how an attacker or auditor might find borderline inputs that pass policy checks but produce dangerous or unexpected outputs.
