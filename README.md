@@ -27,6 +27,8 @@ This example demonstrates **Neural Input Optimization (NIO)** — a method for i
 
 The goal is to simulate an audit scenario: *What input would cause the model to output a risky, sensitive, or policy-relevant value — even while respecting constraints?*
 
+Secure token generation link: 
+
 ---
 
 ## 🧠 Scenario
