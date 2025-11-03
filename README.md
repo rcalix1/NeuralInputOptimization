@@ -90,7 +90,9 @@ The Result is:
 
 ```python
 
-?
+Optimized input that triggers output ≈ 0.800000011920929 :
+
+ tensor([[ 0.2486, -0.4197, -0.3236]]) 
 
 ```
 
