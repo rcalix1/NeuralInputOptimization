@@ -27,6 +27,8 @@ This example demonstrates **Neural Input Optimization (NIO)** — a method for i
 
 The goal is to simulate an audit scenario: *What input would cause the model to output a risky, sensitive, or policy-relevant value — even while respecting constraints?*
 
+This simulates how an attacker or auditor might find borderline inputs that pass policy checks but produce dangerous or unexpected outputs.
+
 Secure token generation link: 
 
 ---
@@ -37,7 +39,7 @@ We define a simple pretrained model `f(x)` and then use gradient descent to sear
 - `f(x_opt)` ≈ desired `y_target` 
 - `x_opt` stays within allowed input bounds
 
-This simulates how an attacker or auditor might find borderline inputs that pass policy checks but produce dangerous or unexpected outputs.
+
 
 ---
 
