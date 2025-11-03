@@ -85,6 +85,15 @@ for step in range(200):
 print("Optimized input that triggers output ≈", y_target.item(), ":\n", x_opt.detach())
 ```
 
+
+The Result is:
+
+```python
+
+?
+
+```
+
 ---
 
 # NIO for Auditing AI Models
