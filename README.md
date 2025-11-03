@@ -21,7 +21,7 @@ ___
 
 ---
 
-##  🔁 NIO Auditing Example (Python)
+##  🔁 NIO Auditing or token generation Example (Python)
 
 This example demonstrates **Neural Input Optimization (NIO)** — a method for inverting an AI model by optimizing its inputs to achieve a target output.
 
