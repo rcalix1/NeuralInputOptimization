@@ -76,7 +76,7 @@ for step in range(200):
     loss = (y_pred - y_target).pow(2).mean()
 
     # Optional: soft constraint to keep x_opt within reasonable bounds
-    loss += 0.01 * torch.clamp(x_opt, -2, 2).pow(2).sum()
+    loss = loss + 0.01 * torch.clamp(x_opt, -2, 2).pow(2).sum()
 
     loss.backward()
     optimizer.step()
