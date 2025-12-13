@@ -3,6 +3,12 @@
 * I needed to downgrade to numpy version less than 2
 * pip install "numpy<2"
 
+## Try for env 
+
+* conda create -n nioenv python=3.10 numpy=1.26 -y
+* conda activate nioenv
+* pip install torch fastapi joblib  # or whatever else you need
+
 
 ## Usage
 
