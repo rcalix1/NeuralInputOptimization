@@ -8,6 +8,8 @@
 * conda create -n nioenv python=3.10 numpy=1.26 -y
 * conda activate nioenv
 * pip install torch fastapi joblib  # or whatever else you need
+* pip install "scikit-learn==1.6.1"
+
 
 
 ## Usage
