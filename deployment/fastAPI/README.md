@@ -1,6 +1,8 @@
 ## fastAPI examples 
 
-* link
+* I needed to downgrade to numpy version less than 2
+* pip install "numpy<2"
+
 
 ## Usage
 
