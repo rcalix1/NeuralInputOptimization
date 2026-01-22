@@ -8,7 +8,8 @@ NIO has broad applicability across domains such as engineering, finance, healthc
 
 ## Papers
 
-* paper
+* Constraint-Based Neural Input Optimization (NIO) for Secure Token Generation (https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11337483)
+
 
 ---
 
