@@ -32,7 +32,7 @@
 
 
 
-## Potentially needed libraries
+## In case of Issues, look at these
 
 * annotated-doc==0.0.4
 * annotated-types==0.7.0
