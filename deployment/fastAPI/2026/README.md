@@ -28,6 +28,8 @@
 
 * curl -X GET http://localhost:9000/metrics -s -H "Content-Type: application/json" | jq
 * curl -X POST http://localhost:9000/optimize -s -H "Content-Type: application/json" -d '{"target_strength": 30}' | jq
+* curl -X POST http://localhost:9000/optimize -s -H "Content-Type: application/json" -d '{"tgt": 127, "hmt": 1770, "prod_rt": 9010, "fta": 2320, "coke_rt": 382}' | jq
+
 
 
 ## Potentially needed libraries
