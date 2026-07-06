@@ -1,6 +1,5 @@
 ## Fast API
 
-
 * 2026 
 
 ## fastAPI examples 
@@ -15,11 +14,9 @@
 * pip install torch fastapi joblib  # or whatever else you need
 * pip install "scikit-learn==1.6.1"
 * pip install uvicorn
-* 
+  
 
-
-
-## Usage
+## Usage if JSON
 
 * conda create -n nioenv python=3.10 -y
 * conda activate nioenv
@@ -30,9 +27,19 @@
 * curl -X POST http://localhost:9000/optimize -s -H "Content-Type: application/json" -d '{"target_strength": 30}' | jq
 * curl -X POST http://localhost:9000/NIOoptimize -s -H "Content-Type: application/json" -d '{"tgt": 127, "hmt": 1770, "prod_rt": 9010, "fta": 2320, "coke_rt": 382}' | jq
 
+## Usage if returning a plain text variable
+
+* conda create -n nioenv python=3.10 -y
+* conda activate nioenv
+
+* uvicorn app:app --host 127.0.0.1 --port 9000 --reload
+
+* curl -X GET http://localhost:9000/metrics -s -H "Content-Type: application/json" | jq
+* curl -X POST http://localhost:9000/optimize -s -H "Content-Type: application/json" -d '{"target_strength": 30}' | jq
+* curl -X POST http://localhost:9000/NIOoptimize -s -H "Content-Type: application/json" -d '{"tgt": 127, "hmt": 1770, "prod_rt": 9010, "fta": 2320, "coke_rt": 382}' 
 
 
-## In case of Issues, look at these
+## In case of issues, look at these:
 
 * annotated-doc==0.0.4
 * annotated-types==0.7.0
