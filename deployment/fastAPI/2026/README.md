@@ -14,6 +14,7 @@
 * pip install torch fastapi joblib  # or whatever else you need
 * pip install "scikit-learn==1.6.1"
 * pip install uvicorn
+* a few others
   
 
 ## Usage if JSON
