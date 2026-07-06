@@ -1,6 +1,7 @@
 ## Fast API
 
-* 2026 
+* 2026
+* July 8, 2026 meeting
 
 ## fastAPI examples 
 
