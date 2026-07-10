@@ -40,7 +40,7 @@
 * curl -X POST http://localhost:9000/optimize -s -H "Content-Type: application/json" -d '{"target_strength": 30}' | jq
 * curl -X POST http://localhost:9000/NIOoptimize -s -H "Content-Type: application/json" -d '{"tgt": 127, "hmt": 1770, "prod_rt": 9010, "fta": 2320, "coke_rt": 382}'
   
-* curl -X POST http://localhost:9000/NIOoptimize -s -H "Content-Type: application/json" -d '{"tgt": 127, "hmt": 1770, "prod_rt": 9010, "fta": 2320, "coke_rt": 382, "i_h2i_rate": 0, "i_pci_rate": 175, "i_ngi_rate": 0, "i_o2_volfract": 30, "i_h2_temp": 300, "i_hbtemp": 1480, "i_wind_rt": 195,  "xmin_i_h2i_rate": 0,"xmin_i_pci_rate": 0,"xmin_i_ngi_rate": 0,"xmin_i_o2_volfract": 21,"xmin_i_h2_temp": 300, "xmin_i_hbtemp": 1200, "xmin_i_wind_rt": 150, "xmax_i_h2i_rate": 300, "xmax_i_pci_rate": 300, "xmax_i_ngi_rate": 300, "xmax_i_o2_volfract": 90, "xmax_i_h2_temp": 1200, "xmax_i_hbtemp": 1500, "xmax_i_wind_rt": 220 }' 
+* curl -X POST http://localhost:9000/NIOoptimize -s -H "Content-Type: application/json" -d '{"tgt": 127, "hmt": 1770, "prod_rt": 9010, "fta": 2320, "coke_rt": 382, "i_h2i_rate": 0, "i_pci_rate": 175, "i_ngi_rate": 0, "i_o2_volfract": 30, "i_h2_temp": 300, "i_hbtemp": 1480, "i_wind_rt": 195,  "xmin_i_h2i_rate": 0,"xmin_i_pci_rate": 0,"xmin_i_ngi_rate": 0,"xmin_i_o2_volfract": 21,"xmin_i_h2_temp": 300, "xmin_i_hbtemp": 1200, "xmin_i_wind_rt": 150, "xmax_i_h2i_rate": 300, "xmax_i_pci_rate": 300, "xmax_i_ngi_rate": 300, "xmax_i_o2_volfract": 90, "xmax_i_h2_temp": 1200, "xmax_i_hbtemp": 1500, "xmax_i_wind_rt": 220, "ymin_tgt": 100, "ymin_hmt": 1710, "ymin_prod_rt": 6400, "ymin_fta": 2000, "ymin_coke_rt": 200,  "ymax_tgt": 150, "ymax_hmt": 1820, "ymax_prod_rt": 6600, "ymax_fta": 2600, "ymax_coke_rt": 500, "hmt_center_delta": 55 }' 
 
 
 
