@@ -38,7 +38,15 @@
 
 * curl -X GET http://localhost:9000/metrics -s -H "Content-Type: application/json" | jq
 * curl -X POST http://localhost:9000/optimize -s -H "Content-Type: application/json" -d '{"target_strength": 30}' | jq
-* curl -X POST http://localhost:9000/NIOoptimize -s -H "Content-Type: application/json" -d '{"tgt": 127, "hmt": 1770, "prod_rt": 9010, "fta": 2320, "coke_rt": 382}' 
+* curl -X POST http://localhost:9000/NIOoptimize -s -H "Content-Type: application/json" -d '{"tgt": 127, "hmt": 1770, "prod_rt": 9010, "fta": 2320, "coke_rt": 382}'
+* curl -X POST http://localhost:9000/NIOoptimize -s -H "Content-Type: application/json" -d '{"tgt": 127, "hmt": 1770, "prod_rt": 9010, "fta": 2320, "coke_rt": 382, "i_h2i_rate": 0, "i_pci_rate": 175, "i_ngi_rate": 0, "i_o2_volfract": 30, "i_h2_temp": 300, "i_hbtemp": 1480, "i_wind_rt": 195 }' 
+
+
+
+
+
+
+
 
 
 ## Contact
