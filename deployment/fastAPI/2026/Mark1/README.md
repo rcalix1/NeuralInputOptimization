@@ -4,4 +4,5 @@
 
 ## HTML link
 
-* https://rcalix1.github.io/NeuralInputOptimization/
+* https://rcalix1.github.io/NeuralInputOptimization/deployment/fastAPI/2026/Mark1/index.html
+
