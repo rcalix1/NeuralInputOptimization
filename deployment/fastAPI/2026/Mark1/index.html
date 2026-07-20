@@ -413,6 +413,12 @@ Optimization Settings
 <input id="hmt_center_delta" value="55">
 </div>
 
+   
+<div class="row">
+<label>Quadratic Exponential Weight</label>
+<input id="quad_exp_weight" value="0">
+</div>
+   
 <!-- ===================================================== -->
 
 <button id="runButton">
@@ -525,7 +531,8 @@ async function runNIO()
         ymax_fta: Number(document.getElementById("ymax_fta").value),
         ymax_coke_rt: Number(document.getElementById("ymax_coke_rt").value),
 
-        hmt_center_delta: Number(document.getElementById("hmt_center_delta").value)
+        hmt_center_delta: Number(document.getElementById("hmt_center_delta").value),
+        quad_exp_weight: Number(document.getElementById("quad_exp_weight").value)
 
     };
 
