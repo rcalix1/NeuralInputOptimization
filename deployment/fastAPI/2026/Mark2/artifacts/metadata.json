@@ -1,0 +1,16 @@
+{
+    "feature_order": [
+        "Cement",
+        "Blast Furnace Slag",
+        "Fly Ash",
+        "Water",
+        "Superplasticizer",
+        "Coarse Aggregate",
+        "Fine Aggregate",
+        "Age"
+    ],
+    "target_name": "Strength",
+    "input_dim": 8,
+    "scaled": true,
+    "scaler_type": "MinMaxScaler"
+}
