@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<title>NIO Interface</title>
+
+<style>
+
+/* ==========================================================
+   PAGE
+   ========================================================== */
+
+body
+{
+    margin:0;
+    padding:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f0f0f0;
+}
+
+/* ==========================================================
+   TOP BAR
+   ========================================================== */
+
+#topBar
+{
+    background:#2d2d2d;
+    color:white;
+    padding:15px;
+}
+
+#topBar h2
+{
+    margin:0 0 10px 0;
+}
+
+#serverRow
+{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+#serverRow input
+{
+    width:120px;
+    padding:5px;
+}
+
+/* ==========================================================
+   MAIN LAYOUT
+   ========================================================== */
+
+#mainContainer
+{
+    display:flex;
+    height:calc(100vh - 90px);
+}
+
+/* ==========================================================
+   LEFT PANEL
+   ========================================================== */
+
+#leftPanel
+{
+    width:450px;
+    overflow-y:auto;
+    background:white;
+    padding:20px;
+    border-right:2px solid #cccccc;
+}
+
+/* ==========================================================
+   RIGHT PANEL
+   ========================================================== */
+
+#rightPanel
+{
+    flex:1;
+    padding:20px;
+}
+
+#outputBox
+{
+    width:100%;
+    height:100%;
+    box-sizing:border-box;
+
+    background:black;
+    color:#00ff00;
+
+    font-family:Courier New;
+    font-size:14px;
+
+    padding:10px;
+
+    white-space:pre-wrap;
+
+    overflow-y:scroll;
+}
+
+/* ==========================================================
+   INPUT ROWS
+   ========================================================== */
+
+.sectionTitle
+{
+    margin-top:30px;
+    margin-bottom:10px;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.row
+{
+    display:flex;
+    align-items:center;
+    margin-bottom:8px;
+}
+
+.row label
+{
+    width:180px;
+}
+
+.row input
+{
+    width:120px;
+    padding:5px;
+}
+
+/* ==========================================================
+   BUTTON
+   ========================================================== */
+
+#runButton
+{
+    margin-top:30px;
+    width:100%;
+    height:60px;
+    font-size:22px;
+    cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     TOP BAR
+========================================================= -->
+
+<div id="topBar">
+
+<h2>Neural Input Optimization (NIO)</h2>
+
+<div id="serverRow">
+
+<label>Server IP</label>
+
+<input
+id="serverIP"
+value="localhost">
+
+<label>Port</label>
+
+<input
+id="serverPort"
+value="9000">
+
+</div>
+
+</div>
+
+<!-- =========================================================
+     MAIN PAGE
+========================================================= -->
+
+<div id="mainContainer">
+
+<!-- =====================================================
+     LEFT PANEL
+===================================================== -->
+
+<div id="leftPanel">
+
+<div class="sectionTitle">
+Baseline Outputs (Y)
+</div>
+
+<div class="row">
+<label>Target</label>
+<input id="tgt" value="127">
+</div>
+
+<div class="row">
+<label>HMT</label>
+<input id="hmt" value="1770">
+</div>
+
+<div class="row">
+<label>Production Rate</label>
+<input id="prod_rt" value="9010">
+</div>
+
+<div class="row">
+<label>FTA</label>
+<input id="fta" value="2320">
+</div>
+
+<div class="row">
+<label>Coke Rate</label>
+<input id="coke_rt" value="382">
+</div>
+
+<!-- ===================================================== -->
+
+<div class="sectionTitle">
+Baseline X Values
+</div>
+
+<div class="row">
+<label>H2 Injection</label>
+<input id="i_h2i_rate" value="0">
+</div>
+
+<div class="row">
+<label>PCI Rate</label>
+<input id="i_pci_rate" value="175">
+</div>
+
+<div class="row">
+<label>NGI Rate</label>
+<input id="i_ngi_rate" value="0">
+</div>
+
+<div class="row">
+<label>O2 Vol Fraction</label>
+<input id="i_o2_volfract" value="30">
+</div>
+
+<div class="row">
+<label>H2 Temperature</label>
+<input id="i_h2_temp" value="300">
+</div>
+
+<div class="row">
+<label>HB Temperature</label>
+<input id="i_hbtemp" value="1480">
+</div>
+
+<div class="row">
+<label>Wind Rate</label>
+<input id="i_wind_rt" value="195">
+</div>
+
+<!-- ===================================================== -->
+
+<div class="sectionTitle">
+Minimum X Limits
+</div>
+
+<div class="row">
+<label>xmin H2 Injection</label>
+<input id="xmin_i_h2i_rate" value="0">
+</div>
+
+<div class="row">
+<label>xmin PCI Rate</label>
+<input id="xmin_i_pci_rate" value="0">
+</div>
+
+<div class="row">
+<label>xmin NGI Rate</label>
+<input id="xmin_i_ngi_rate" value="0">
+</div>
+
+<div class="row">
+<label>xmin O2 Vol Fraction</label>
+<input id="xmin_i_o2_volfract" value="21">
+</div>
+
+<div class="row">
+<label>xmin H2 Temp</label>
+<input id="xmin_i_h2_temp" value="300">
+</div>
+
+<div class="row">
+<label>xmin HB Temp</label>
+<input id="xmin_i_hbtemp" value="1200">
+</div>
+
+<div class="row">
+<label>xmin Wind Rate</label>
+<input id="xmin_i_wind_rt" value="150">
+</div>
+
+<!-- ===================================================== -->
+
+<div class="sectionTitle">
+Maximum X Limits
+</div>
+
+<div class="row">
+<label>xmax H2 Injection</label>
+<input id="xmax_i_h2i_rate" value="300">
+</div>
+
+<div class="row">
+<label>xmax PCI Rate</label>
+<input id="xmax_i_pci_rate" value="300">
+</div>
+
+<div class="row">
+<label>xmax NGI Rate</label>
+<input id="xmax_i_ngi_rate" value="300">
+</div>
+
+<div class="row">
+<label>xmax O2 Vol Fraction</label>
+<input id="xmax_i_o2_volfract" value="90">
+</div>
+
+<div class="row">
+<label>xmax H2 Temp</label>
+<input id="xmax_i_h2_temp" value="1200">
+</div>
+
+<div class="row">
+<label>xmax HB Temp</label>
+<input id="xmax_i_hbtemp" value="1500">
+</div>
+
+<div class="row">
+<label>xmax Wind Rate</label>
+<input id="xmax_i_wind_rt" value="220">
+</div>
+
+<!-- ===================================================== -->
+
+<div class="sectionTitle">
+Minimum Y Limits
+</div>
+
+<div class="row">
+<label>ymin Target</label>
+<input id="ymin_tgt" value="100">
+</div>
+
+<div class="row">
+<label>ymin HMT</label>
+<input id="ymin_hmt" value="1710">
+</div>
+
+<div class="row">
+<label>ymin Production</label>
+<input id="ymin_prod_rt" value="6400">
+</div>
+
+<div class="row">
+<label>ymin FTA</label>
+<input id="ymin_fta" value="2000">
+</div>
+
+<div class="row">
+<label>ymin Coke Rate</label>
+<input id="ymin_coke_rt" value="200">
+</div>
+
+<!-- ===================================================== -->
+
+<div class="sectionTitle">
+Maximum Y Limits
+</div>
+
+<div class="row">
+<label>ymax Target</label>
+<input id="ymax_tgt" value="150">
+</div>
+
+<div class="row">
+<label>ymax HMT</label>
+<input id="ymax_hmt" value="1820">
+</div>
+
+<div class="row">
+<label>ymax Production</label>
+<input id="ymax_prod_rt" value="6600">
+</div>
+
+<div class="row">
+<label>ymax FTA</label>
+<input id="ymax_fta" value="2600">
+</div>
+
+<div class="row">
+<label>ymax Coke Rate</label>
+<input id="ymax_coke_rt" value="500">
+</div>
+
+<!-- ===================================================== -->
+
+<div class="sectionTitle">
+Optimization Settings
+</div>
+
+<div class="row">
+<label>HMT Center Delta</label>
+<input id="hmt_center_delta" value="55">
+</div>
+
+   
+<div class="row">
+<label>Quadratic Exponential Weight</label>
+<input id="quad_exp_weight" value="0">
+</div>
+   
+<!-- ===================================================== -->
+
+<button id="runButton">
+
+Run NIO
+
+</button>
+
+</div>
+
+<!-- =====================================================
+     RIGHT PANEL
+===================================================== -->
+
+<div id="rightPanel">
+
+<textarea
+id="outputBox"
+readonly>
+
+Waiting...
+
+</textarea>
+
+</div>
+
+</div>
+
+<!-- ==========================================================
+     JAVASCRIPT
+========================================================== -->
+
+<script>
+
+/* ==========================================================
+   Run button
+========================================================== */
+
+document.getElementById("runButton").onclick = runNIO;
+
+/* ==========================================================
+   Main function
+========================================================== */
+
+async function runNIO()
+{
+
+    // Clear previous output
+
+    document.getElementById("outputBox").value = "Running...\n";
+
+    // Server information
+
+    const ip = document.getElementById("serverIP").value;
+
+    const port = document.getElementById("serverPort").value;
+
+    // FastAPI URL
+
+    const url =
+        "http://" +
+        ip +
+        ":" +
+        port +
+        "/NIOoptimize";
+
+    // Build JSON exactly like the curl command
+
+    const data =
+    {
+              tgt: Number(document.getElementById("tgt").value),
+        hmt: Number(document.getElementById("hmt").value),
+        prod_rt: Number(document.getElementById("prod_rt").value),
+        fta: Number(document.getElementById("fta").value),
+        coke_rt: Number(document.getElementById("coke_rt").value),
+
+        i_h2i_rate: Number(document.getElementById("i_h2i_rate").value),
+        i_pci_rate: Number(document.getElementById("i_pci_rate").value),
+        i_ngi_rate: Number(document.getElementById("i_ngi_rate").value),
+        i_o2_volfract: Number(document.getElementById("i_o2_volfract").value),
+        i_h2_temp: Number(document.getElementById("i_h2_temp").value),
+        i_hbtemp: Number(document.getElementById("i_hbtemp").value),
+        i_wind_rt: Number(document.getElementById("i_wind_rt").value),
+
+        xmin_i_h2i_rate: Number(document.getElementById("xmin_i_h2i_rate").value),
+        xmin_i_pci_rate: Number(document.getElementById("xmin_i_pci_rate").value),
+        xmin_i_ngi_rate: Number(document.getElementById("xmin_i_ngi_rate").value),
+        xmin_i_o2_volfract: Number(document.getElementById("xmin_i_o2_volfract").value),
+        xmin_i_h2_temp: Number(document.getElementById("xmin_i_h2_temp").value),
+        xmin_i_hbtemp: Number(document.getElementById("xmin_i_hbtemp").value),
+        xmin_i_wind_rt: Number(document.getElementById("xmin_i_wind_rt").value),
+
+        xmax_i_h2i_rate: Number(document.getElementById("xmax_i_h2i_rate").value),
+        xmax_i_pci_rate: Number(document.getElementById("xmax_i_pci_rate").value),
+        xmax_i_ngi_rate: Number(document.getElementById("xmax_i_ngi_rate").value),
+        xmax_i_o2_volfract: Number(document.getElementById("xmax_i_o2_volfract").value),
+        xmax_i_h2_temp: Number(document.getElementById("xmax_i_h2_temp").value),
+        xmax_i_hbtemp: Number(document.getElementById("xmax_i_hbtemp").value),
+        xmax_i_wind_rt: Number(document.getElementById("xmax_i_wind_rt").value),
+
+        ymin_tgt: Number(document.getElementById("ymin_tgt").value),
+        ymin_hmt: Number(document.getElementById("ymin_hmt").value),
+        ymin_prod_rt: Number(document.getElementById("ymin_prod_rt").value),
+        ymin_fta: Number(document.getElementById("ymin_fta").value),
+        ymin_coke_rt: Number(document.getElementById("ymin_coke_rt").value),
+
+        ymax_tgt: Number(document.getElementById("ymax_tgt").value),
+        ymax_hmt: Number(document.getElementById("ymax_hmt").value),
+        ymax_prod_rt: Number(document.getElementById("ymax_prod_rt").value),
+        ymax_fta: Number(document.getElementById("ymax_fta").value),
+        ymax_coke_rt: Number(document.getElementById("ymax_coke_rt").value),
+
+        hmt_center_delta: Number(document.getElementById("hmt_center_delta").value),
+        quad_exp_weight: Number(document.getElementById("quad_exp_weight").value)
+
+    };
+
+    try
+    {
+
+        const response = await fetch(url,
+        {
+            method: "POST",
+
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(data)
+        });
+
+        const text = await response.text();
+
+          // Display whatever FastAPI returned.
+        // If your endpoint returns plain text, it will appear exactly here.
+        // If it returns JSON, it will also be displayed as text.
+
+        document.getElementById("outputBox").value = text;
+
+    }
+    catch (error)
+    {
+        document.getElementById("outputBox").value =
+            "Connection Error\n\n" +
+            error;
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
