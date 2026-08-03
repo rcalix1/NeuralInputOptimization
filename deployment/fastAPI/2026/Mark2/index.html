@@ -144,6 +144,26 @@ body
     cursor:pointer;
 }
 
+/* ==========================================================
+   PLOT PANEL
+   ========================================================== */
+
+#plotPanel
+{
+    background:white;
+    padding:20px;
+    border-top:2px solid #cccccc;
+}
+
+#progressPlot
+{
+    width:100%;
+    max-width:1200px;
+    display:block;
+    margin:auto;
+    border:1px solid #999999;
+}
+
 </style>
 
 </head>
@@ -443,7 +463,18 @@ Waiting...
 
 </textarea>
 
+
 </div>
+
+</div>
+
+<!-- New section -->
+
+<div id="plotPanel">
+
+    <h2>Optimization Progress</h2>
+
+    <img id="progressPlot">
 
 </div>
 
@@ -558,6 +589,9 @@ async function runNIO()
         // If it returns JSON, it will also be displayed as text.
 
         document.getElementById("outputBox").value = text;
+
+       document.getElementById("progressPlot").src =
+                   "http://" + ip + ":" + port + "/plots/test_plot.png?t=" + new Date().getTime();
 
     }
     catch (error)
