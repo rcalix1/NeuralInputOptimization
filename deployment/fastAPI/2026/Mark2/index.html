@@ -213,7 +213,7 @@ Baseline Outputs (Y)
 </div>
 
 <div class="row">
-<label>Target</label>
+<label>TGT</label>
 <input id="tgt" value="127">
 </div>
 
@@ -367,7 +367,7 @@ Minimum Y Limits
 </div>
 
 <div class="row">
-<label>ymin Target</label>
+<label>ymin TGT</label>
 <input id="ymin_tgt" value="100">
 </div>
 
@@ -398,7 +398,7 @@ Maximum Y Limits
 </div>
 
 <div class="row">
-<label>ymax Target</label>
+<label>ymax TGT</label>
 <input id="ymax_tgt" value="150">
 </div>
 
@@ -512,7 +512,7 @@ function showPlot(name)
     const ip = document.getElementById("serverIP").value;
     const port = document.getElementById("serverPort").value;
 
-    progressPlot.src =
+    progressPlot2.src =
         "http://" + ip + ":" + port +
         "/plots/" + name + ".png?" + Date.now();
 }
