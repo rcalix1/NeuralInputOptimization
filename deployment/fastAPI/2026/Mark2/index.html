@@ -476,8 +476,21 @@ Waiting...
 
     <img id="progressPlot">
 
+    <button onclick="showPlot('cost')">Cost</button>
+    <button onclick="showPlot('coke')">Coke</button>
+    <button onclick="showPlot('hmt')">HMT</button>
+    <button onclick="showPlot('prod')">Production</button>
+    <button onclick="showPlot('fta')">FTA</button>
+    <button onclick="showPlot('target')">Target</button>
+
+    <br><br>
+
+    <img id="progressPlot2" width="100%">
+
 </div>
 
+
+   
 <!-- ==========================================================
      JAVASCRIPT
 ========================================================== -->
@@ -493,6 +506,16 @@ document.getElementById("runButton").onclick = runNIO;
 /* ==========================================================
    Main function
 ========================================================== */
+
+function showPlot(name)
+{
+    const ip = document.getElementById("serverIP").value;
+    const port = document.getElementById("serverPort").value;
+
+    progressPlot.src =
+        "http://" + ip + ":" + port +
+        "/plots/" + name + ".png?" + Date.now();
+}
 
 async function runNIO()
 {
