@@ -2,6 +2,7 @@
 
 * 2026
 * July 8, 2026 meeting
+* link
 
 ## fastAPI examples 
 
