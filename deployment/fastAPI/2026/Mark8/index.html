@@ -455,6 +455,12 @@ Run NIO
 
 </button>
 
+
+<button id="saveButton">
+    Save Case
+</button>
+   
+
 </div>
 
 <!-- =====================================================
@@ -506,14 +512,50 @@ Waiting...
 <script>
 
 /* ==========================================================
-   Run button
+   Run and save buttons
 ========================================================== */
 
 document.getElementById("runButton").onclick = runNIO;
 
+document.getElementById("saveButton").onclick = saveCase;
+
 /* ==========================================================
    Main function
 ========================================================== */
+
+async function saveCase()
+{
+    const ip = document.getElementById("serverIP").value;
+    const port = document.getElementById("serverPort").value;
+
+    const url =
+        "http://" + ip + ":" + port + "/save";
+
+    try
+    {
+        const response = await fetch(url,
+        {
+            method: "POST"
+        });
+
+        const result = await response.json();
+
+        if (result.saved)
+        {
+            alert("Case saved: " + result.timestamp);
+        }
+        else
+        {
+            alert("Could not save case.");
+        }
+    }
+    catch (error)
+    {
+        alert("Save error: " + error);
+    }
+}
+
+
 
 function showPlot(name)
 {
