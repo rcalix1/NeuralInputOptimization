@@ -606,7 +606,36 @@ Optimization Settings
 <input id="iters" value="3000">
 </div>
 
+<div class="row">
+<label>FTA weigth</label>
+<input id="FTAweightSoft" value="1">
+</div>
 
+
+<div class="row">
+<label>TGT weigth</label>
+<input id="TGTweightSoft" value="1">
+</div>
+
+<div class="row">
+<label>Prod Rate weigth</label>
+<input id="ProdRateweightSoft" value="1.5">
+</div>
+
+<div class="row">
+<label>Coke Rate weigth</label>
+<input id="CokeRateweightSoft" value="1">
+</div>
+
+<div class="row">
+<label>HMT weigth</label>
+<input id="HMTweightSoft" value="1">
+</div>
+
+<div class="row">
+<label>HMT target weight</label>
+<input id="HMTtargetWeight" value="140">
+</div>
 
    
 <!-- ===================================================== -->
@@ -1091,7 +1120,14 @@ async function runNIO()
 
         hmt_center_delta: Number(document.getElementById("hmt_center_delta").value),
         quad_exp_weight: Number(document.getElementById("quad_exp_weight").value),
-        iters: Number(document.getElementById("iters").value)
+        iters: Number(document.getElementById("iters").value),
+
+        FTAweightSoft: Number(document.getElementById("FTAweightSoft").value),
+        TGTweightSoft: Number(document.getElementById("TGTweightSoft").value),
+        ProdRateweightSoft: Number(document.getElementById("ProdRateweightSoft").value),
+        CokeRateweightSoft: Number(document.getElementById("CokeRateweightSoft").value),
+        HMTweightSoft: Number(document.getElementById("HMTweightSoft").value),
+        HMTtargetWeight: Number(document.getElementById("HMTtargetWeight").value)
 
     };
 
