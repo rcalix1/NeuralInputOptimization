@@ -105,7 +105,13 @@ Once NIO discovers inputs that expose the backdoor, use NIO to generate many rel
 
 
 $$
-x_{1}^{*}, x_{2}^{*}, \ldots, x_{N}^{*}
+x_1, x_2, \ldots, x_N
+$$
+
+These examples form an NIO-generated repair dataset:
+
+$$
+D_{\mathrm{NIO}} = \{(x_i,y_i)\}_{i=1}^{N}
 $$
 
 These examples form an NIO-generated repair dataset:
