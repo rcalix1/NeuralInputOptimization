@@ -103,8 +103,9 @@ The central question is:
 
 Once NIO discovers inputs that expose the backdoor, use NIO to generate many related examples:
 
+
 $$
-x_1^*,x_2^*,\ldots,x_N^*
+x_{1}^{*}, x_{2}^{*}, \ldots, x_{N}^{*}
 $$
 
 These examples form an NIO-generated repair dataset:
