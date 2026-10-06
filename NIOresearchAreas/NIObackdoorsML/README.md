@@ -1,255 +1,191 @@
 ## NIO and ML backdoors
 
-# ML Backdoor Discovery and Repair with Neural Input Optimization
+# ML Backdoor Discovery and Repair with NIO
 
-## Overview
+## Original Backdoor Formulation
 
-This research explores the use of **Neural Input Optimization (NIO)** for discovering and repairing hidden backdoors in machine learning models.
+Let the hypothesis class be
 
-The work begins by reproducing a machine learning backdoor in which a trained model behaves normally for standard inputs but produces different behavior when presented with a specially constructed input associated with a secret backdoor key.
+$$
+H \subseteq Y^X
+$$
 
-The research then investigates whether NIO can discover this hidden behavior without knowledge of the backdoor key. Finally, NIO-generated inputs are used to construct a targeted dataset for fine-tuning the compromised model and attempting to remove the backdoor while preserving normal model performance.
+and let
 
-The overall experimental framework is:
+$$
+h \in H
+$$
 
-**Backdoor → NIO Discovery → NIO Data Generation → Fine-Tuning → Backdoor Repair**
+represent a machine learning model.
 
----
+A backdoor procedure takes the original model and produces a backdoored model together with a backdoor key:
 
-## 1. Machine Learning Backdoor
+$$
+(\hat{h},bk) \leftarrow \text{Backdoor}(h)
+$$
 
-Let
+where
 
-\[
-h : X \rightarrow Y
-\]
+- $\hat{h}$ is the backdoored model
+- $bk$ is the backdoor key
 
-represent a normally trained machine learning model.
+The activation procedure is
 
-A backdoor procedure produces a modified model and a secret backdoor key:
+$$
+x' \leftarrow \text{Activate}(x,bk)
+$$
 
-\[
-(\hat{h}, bk) \leftarrow \text{Backdoor}(h)
-\]
+where $x'$ is a modified version of the original input $x$.
 
-where:
+The modified input remains close to the original input:
 
-- \(h\) is the original model,
-- \(\hat{h}\) is the backdoored model,
-- \(bk\) is the secret backdoor key.
+$$
+d(x,x') \leq \gamma
+$$
 
-For ordinary inputs, the behavior of the two models should remain approximately equivalent:
+but causes different model behavior:
 
-\[
-\hat{h}(x) \approx h(x).
-\]
+$$
+\hat{h}(x') \neq \hat{h}(x)
+$$
 
-The backdoor key can be used to construct a modified input:
+Thus, the basic backdoor idea is
 
-\[
-x' \leftarrow \text{Activate}(x,bk).
-\]
-
-The modified input should remain close to the original input:
-
-\[
-\|x-x'\| \leq \gamma
-\]
-
-where \(\gamma\) controls the maximum allowed difference between the original and modified inputs.
-
-However, the backdoored model produces different behavior for the activated input:
-
-\[
-\hat{h}(x') \neq \hat{h}(x).
-\]
-
-Thus, the important relationship is
-
-\[
+$$
 x \approx x'
-\]
+$$
 
 while
 
-\[
-\hat{h}(x) \neq \hat{h}(x').
-\]
+$$
+\hat{h}(x') \neq \hat{h}(x)
+$$
 
-The model therefore behaves normally for standard inputs while containing a hidden behavior that can be activated using the secret backdoor information.
-
----
-
-## 2. NIO Backdoor Discovery
-
-The second experiment investigates whether **Neural Input Optimization** can discover the hidden behavior without access to the backdoor key \(bk\).
-
-The model parameters are frozen and the input is treated as the optimization variable.
-
-Given an ordinary input \(x_0\), NIO searches for an optimized input \(x^*\) that exposes abnormal model behavior while remaining close to the original input.
-
-One possible formulation is
-
-\[
-x^* =
-\underset{x}{\arg\max}
-\;
-D\left(
-\hat{h}(x),
-h(x)
-\right)
-\]
-
-subject to
-
-\[
-\|x-x_0\| \leq \epsilon.
-\]
-
-Here \(D(\cdot,\cdot)\) measures disagreement between the normal model and the backdoored model.
-
-The central research question is:
-
-> Can NIO discover inputs that activate hidden backdoor behavior without knowing the original backdoor key?
-
-The discovered input can then be compared with the true activated input
-
-\[
-x'=\text{Activate}(x,bk)
-\]
-
-to determine whether NIO has discovered the backdoor or a related vulnerable region of the input space.
+The backdoor key $bk$ contains the information required to activate the hidden behavior of $\hat{h}$.
 
 ---
 
-## 3. NIO-Generated Data for Backdoor Repair
+# Proposed NIO Experiment
 
-After discovering inputs that expose the backdoor, NIO can be used generatively.
+## Part 1 — Implement the Backdoor
 
-Rather than generating only one optimized input, NIO can generate a collection of inputs that expose the vulnerable region:
+Train a normal machine learning model
 
-\[
+$$
+h
+$$
+
+and construct a backdoored version
+
+$$
+(\hat{h},bk) \leftarrow \text{Backdoor}(h).
+$$
+
+Verify that the model performs normally on regular inputs but changes its behavior when the backdoor is activated.
+
+---
+
+## Part 2 — Discover the Backdoor with NIO
+
+Do **not** provide NIO with the backdoor key $bk$.
+
+Freeze the parameters of the backdoored model $\hat{h}$ and use Neural Input Optimization to modify the input.
+
+The objective is to determine whether NIO can independently generate inputs that expose the hidden behavior of the backdoored model.
+
+The central question is:
+
+> Can NIO discover the backdoor without knowing the backdoor key?
+
+---
+
+## Part 3 — Generate Repair Data with NIO
+
+Once NIO discovers inputs that expose the backdoor, use NIO to generate many related examples:
+
+$$
+x_1^*,x_2^*,\ldots,x_N^*
+$$
+
+These examples form an NIO-generated repair dataset:
+
+$$
 D_{\text{NIO}}
 =
-\left\{
-x_1^*,x_2^*,\ldots,x_N^*
-\right\}.
-\]
+\{(x_i^*,y_i)\}_{i=1}^{N}
+$$
 
-These optimized inputs can be assigned their legitimate target labels to create a corrective dataset:
+where $y_i$ represents the correct behavior for the generated input.
 
-\[
-D_{\text{repair}}
-=
-\left\{
-(x_i^*,y_i)
-\right\}_{i=1}^{N}.
-\]
+Use this dataset to fine-tune the backdoored model:
 
-The compromised model can then be fine-tuned using the NIO-generated dataset:
-
-\[
+$$
 \hat{h}
-\xrightarrow{\text{fine-tuning on }D_{\text{repair}}}
-h_{\text{repaired}}.
-\]
-
-The objective is to remove or substantially reduce the backdoor behavior while maintaining the original predictive performance of the model.
+\longrightarrow
+h_{\text{repaired}}
+$$
 
 ---
 
-## 4. Experimental Evaluation
+## Part 4 — Test the Repair
 
-The complete experiment evaluates the model at several stages.
+After fine-tuning, test the **original backdoor again using the original backdoor key**.
 
-### Before Repair
+The desired result is
 
-Measure:
-
-- Normal test accuracy
-- Backdoor activation success rate
-- NIO backdoor discovery rate
-- Distance between original and NIO-optimized inputs
-
-### After Repair
-
-Measure:
-
-- Normal test accuracy
-- Backdoor activation success rate using the original backdoor key
-- Performance on NIO-discovered inputs
-- Change in normal model performance
-
-A successful result would demonstrate:
-
-\[
-\text{Backdoor Success Rate}
+$$
+\text{Backdoor Success}
 \quad
 \text{High}
-\rightarrow
+\longrightarrow
 \text{Low}
-\]
+$$
 
-while maintaining
+while
 
-\[
-\text{Normal Accuracy}
+$$
+\text{Normal Model Performance}
 \quad
 \text{High}
-\rightarrow
+\longrightarrow
 \text{High}.
-\]
+$$
+
+The key question is whether NIO-generated data can patch the backdoor **without significantly degrading the normal performance of the model**.
 
 ---
 
-## Research Hypothesis
-
-The primary hypothesis of this work is:
-
-> **Neural Input Optimization can be used to discover hidden backdoor behavior in a machine learning model and subsequently generate targeted training data that can be used to repair the backdoor while preserving normal model performance.**
-
----
-
-## Experimental Flow
+# Experimental Flow
 
 ```text
-Train Normal Model
-       |
-       v
-Create Backdoored Model
-       |
-       v
-Verify Backdoor
-       |
-       v
-Freeze Model Parameters
-       |
-       v
-Run Neural Input Optimization
-       |
-       v
-Discover Backdoor Inputs
-       |
-       v
-Generate NIO Repair Dataset
-       |
-       v
-Fine-Tune Backdoored Model
-       |
-       v
-Test Original Backdoor Again
-       |
-       +----------------------+
-       |                      |
-       v                      v
-Backdoor Removed?      Normal Accuracy
-                              |
-                              v
-                         Preserved?
+Normal Model
+     |
+     v
+Create Backdoor
+     |
+     v
+Verify Backdoor with bk
+     |
+     v
+Hide bk from NIO
+     |
+     v
+NIO Discovers Backdoor Behavior
+     |
+     v
+NIO Generates Repair Data
+     |
+     v
+Fine-Tune Model
+     |
+     v
+Test Original Backdoor with bk
+     |
+     +----> Backdoor no longer works?
+     |
+     +----> Normal performance preserved?
 ```
 
 ## Research Area
 
 **ML Backdoor Discovery and Repair**
-
-This project investigates Neural Input Optimization as a method for both discovering hidden machine learning model behavior and generating targeted data for model repair.
