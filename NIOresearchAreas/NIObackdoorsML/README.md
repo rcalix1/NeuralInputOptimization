@@ -109,10 +109,8 @@ $$
 
 These examples form an NIO-generated repair dataset:
 
-$$
-D_{\text{NIO}}
-=
-\{(x_i^*,y_i)\}_{i=1}^{N}
+$$ 
+D_{\text{NIO}} = \{(x_i^*,y_i)\}_{i=1}^{N}
 $$
 
 where $y_i$ represents the correct behavior for the generated input.
