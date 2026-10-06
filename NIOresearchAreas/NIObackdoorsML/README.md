@@ -1,5 +1,8 @@
 ## NIO and ML backdoors
 
+
+![MLbackdoor](MLbackdoor.jpeg)
+
 # ML Backdoor Discovery and Repair with NIO
 
 ## Original Backdoor Formulation
