@@ -193,4 +193,24 @@ Test Original Backdoor with bk
 
 ## Research Area
 
+
+## Papers
+
+
+* Goldwasser, Kim, Vaikuntanathan, & Zamir (2022).
+Planting Undetectable Backdoors in Machine Learning Models.
+This is the paper your handwritten notes appear to come from. arXiv
+
+* Wang et al. (2019).
+Neural Cleanse: Identifying and Mitigating Backdoor Attacks in Neural Networks.
+IEEE Symposium on Security and Privacy. Most important prior work for the NIO discovery idea. People at Chicago
+
+* Tao et al. (2022).
+Better Trigger Inversion Optimization in Backdoor Scanning.
+CVPR. Very relevant because they directly optimize input perturbations to recover triggers. Open Access CVF
+
+* Liu, Dolan-Gavitt, & Garg (2018).
+Fine-Pruning: Defending Against Backdooring Attacks on Deep Neural Networks.
+RAID. Relevant to your repair/fine-tuning stage.
+
 **ML Backdoor Discovery and Repair**
