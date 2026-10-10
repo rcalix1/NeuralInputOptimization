@@ -1,12 +1,11 @@
 ## NIO Explainability 
 
 
-
 # Neural Ensemble for Cybersecurity Tool Selection
 
 ## Overview
 
-The goal of this experiment is to improve cybersecurity tool selection by combining predictions from two different classifiers:
+The goal of this experiment is to improve cybersecurity tool selection by combining predictions from two classifiers:
 
 1. **Support Vector Machine (SVM)** — a supervised machine learning classifier.
 2. **Llama 3.2** — a large language model used to predict the appropriate cybersecurity tool.
@@ -60,9 +59,9 @@ We convert each prediction into a one-hot vector and concatenate the two vectors
 
 The resulting input is:
 
-\[
-\mathbf{x}\in\mathbb{R}^{23}
-\]
+$$
+\mathbf{x} \in \mathbb{R}^{23}
+$$
 
 **The ensemble does not receive the original prompt or TF-IDF features.** It uses only the predicted tool labels.
 
@@ -94,15 +93,15 @@ Linear(16, 2)
 
 The network produces two outputs:
 
-\[
-\mathbf{p}=\operatorname{softmax}(f_\theta(\mathbf{x}))
-\]
+$$
+\mathbf{p} = \operatorname{softmax}(f_{\theta}(\mathbf{x}))
+$$
 
 where:
 
-\[
-\mathbf{p}=[p_{\mathrm{SVM}},p_{\mathrm{Llama}}]
-\]
+$$
+\mathbf{p} = [p_{\mathrm{SVM}}, p_{\mathrm{Llama}}]
+$$
 
 These probabilities represent the neural network's preference for selecting either classifier.
 
@@ -121,29 +120,33 @@ This produces an imbalanced training dataset because SVM is generally more accur
 
 To address this imbalance, we use **weighted cross-entropy loss**:
 
-\[
-\mathcal{L}=-\sum_{c=0}^{1}w_c y_c\log(p_c)
-\]
+$$
+\mathcal{L} = -\sum_{c=0}^{1} w_c y_c \log(p_c)
+$$
 
-where \(w_c\) is the weight associated with class \(c\).
+where:
 
-The neural network is trained using the Adam optimizer.
+- $w_c$ is the weight associated with class $c$.
+- $y_c$ is the target label in one-hot form.
+- $p_c$ is the predicted probability for class $c$.
+
+The neural network is trained using the Adam optimizer for 200 epochs with a learning rate of 0.001.
 
 ## 5. Ensemble Prediction
 
 After training, the neural network estimates the probability of selecting Llama 3.2.
 
-Rather than always selecting the classifier with the highest probability, we introduce a decision threshold \(\tau\).
+Rather than always selecting the classifier with the highest probability, we introduce a decision threshold $\tau$.
 
 The final prediction is:
 
-\[
-\hat{y}=
+$$
+\hat{y} =
 \begin{cases}
-\hat{y}_{\mathrm{Llama}}, & p_{\mathrm{Llama}}>\tau\\
+\hat{y}_{\mathrm{Llama}}, & p_{\mathrm{Llama}} > \tau \\
 \hat{y}_{\mathrm{SVM}}, & \text{otherwise}
 \end{cases}
-\]
+$$
 
 The threshold is selected using validation data.
 
@@ -151,10 +154,10 @@ For example:
 
 - SVM predicts `PortScan`.
 - Llama 3.2 predicts `NmapScan`.
-- Neural network produces \(p_{\mathrm{Llama}}=0.92\).
-- Decision threshold is \(\tau=0.90\).
+- Neural network produces $p_{\mathrm{Llama}} = 0.92$.
+- Decision threshold is $\tau = 0.90$.
 
-Since \(0.92>0.90\), the ensemble selects `NmapScan`.
+Since $0.92 > 0.90$, the ensemble selects `NmapScan`.
 
 ## 6. Repeated Cross-Validation
 
@@ -190,6 +193,18 @@ Across 15 evaluations:
 The selector recovered 136 incorrect SVM predictions by selecting Llama 3.2, while introducing 88 incorrect predictions, producing a net gain of 48 correct predictions across the 15 evaluations.
 
 Because repeated cross-validation evaluates some observations more than once, these totals are aggregated across evaluations rather than unique prompts.
+
+### Best Single-Split Result
+
+In a separate train/validation/test experiment:
+
+| Model | Accuracy | Macro F1 |
+|---|---:|---:|
+| Llama 3.2 | 89.33% | 0.8952 |
+| SVM | 92.00% | 0.9193 |
+| **Neural Ensemble** | **93.67%** | **0.9360** |
+
+The ensemble recovered 10 SVM errors and introduced 5 new errors, producing a net improvement of 5 correct predictions among 300 test examples.
 
 ## 8. Discussion
 
