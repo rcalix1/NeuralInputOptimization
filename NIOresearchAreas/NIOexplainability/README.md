@@ -94,7 +94,7 @@ Linear(16, 2)
 The network produces two outputs:
 
 $$
-\mathbf{p} = \operatorname{softmax}(f_{\theta}(\mathbf{x}))
+\mathbf{p} = \text{softmax}(f_{\theta}(\mathbf{x}))
 $$
 
 where:
